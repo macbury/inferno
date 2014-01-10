@@ -1,5 +1,5 @@
 require "inferno/version"
-
+require "eventmachine"
 module Inferno
   class Event
     def initialize
@@ -21,10 +21,8 @@ module Inferno
     # @param [Object] [on what object run callback]
     # @param [Proc] [callback]
     def once(event, context, &callback)
-      on(event, context) do |payload|
-        off(event, context)
-        run_in_context(context, payload, &block)
-      end
+      on(event, context, &callback)
+      on(event, self) { off(event) }
     end
 
     # Bind a callback function to an object. The callback will be invoked whenever the event is fired.
@@ -85,7 +83,7 @@ module Inferno
       # @param [Proc] [Block to run in next tick if eventmachine reactor is running]
       def schedule(&block)
         fiber = pool_fiber
-        if EM.reactor_running?
+        if defined?(EM) && EM.reactor_running?
           EM.next_tick { fiber.resume(block) }
         else
           fiber.resume(block)

@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Arkadiusz Buras"]
   spec.email         = ["macbury@gmail.com"]
   spec.summary       = "Gem gives object the ability to bind and trigger custom named events. Events do not have to be declared before they are bound, and may take passed arguments. "
-  spec.homepage      = "Gem gives object the ability to bind and trigger custom named events. Events do not have to be declared before they are bound, and may take passed arguments. "
+  spec.homepage      = "http://macbury.pl"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
