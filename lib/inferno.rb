@@ -1,5 +1,7 @@
 require "inferno/version"
+require "inferno/logger"
 require "eventmachine"
+
 module Inferno
   class Event
     def initialize
