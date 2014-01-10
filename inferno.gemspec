@@ -2,8 +2,7 @@
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'inferno/version'
-require 'rspec/core/rake_task'
-RSpec::Core::RakeTask.new('spec')
+
 Gem::Specification.new do |spec|
   spec.name          = "inferno"
   spec.version       = Inferno::VERSION
