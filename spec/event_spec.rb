@@ -18,6 +18,7 @@ describe Inferno::Event do
   it "should allow add actions and run it in proper context" do
     dummy         = DummyContextObject.new
     notifications = Inferno::Event.new
+
     notifications.on(:test, dummy) { @test_var = 2 }
     notifications.count(:test).should eq(1)
     notifications.trigger(:test)
