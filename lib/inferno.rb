@@ -1,7 +1,7 @@
 require "inferno/version"
 require "inferno/logger"
 require "eventmachine"
-
+require "fiber"
 module Inferno
   class Event
     def initialize
@@ -17,7 +17,7 @@ module Inferno
       @events.keys
     end
 
-    # Just like on, but causes the bound callback to only fire once before being removed. 
+    # Just like on, but causes the bound callback to only fire once before being removed.
     # Handy for saying "the next time that X happens, do this".
     # @param [String] [event name]
     # @param [Object] [on what object run callback]
@@ -40,15 +40,15 @@ module Inferno
       @events[event] ? @events[event].size : 0
     end
 
-    # Remove a previously-bound callback function from an object. 
-    # If no context is specified, all of the versions of the callback with different contexts will be removed. 
+    # Remove a previously-bound callback function from an object.
+    # If no context is specified, all of the versions of the callback with different contexts will be removed.
     # If no event is specified, callbacks for all events will be removed.
     # @param [String] [event name]
     # @param [Object] [on what object run callback]
     def off(event,context=nil)
       if @events[event]
         if context
-          @events[event].delete(context) 
+          @events[event].delete(context)
         else
           @events[event].clear
         end
@@ -95,7 +95,7 @@ module Inferno
       def broadcast(in_fiber, event, payload={})
         list = @events[event] || []
 
-        list.each do |context, block| 
+        list.each do |context, block|
           if in_fiber
             schedule { run_in_context(context, payload, &block) }
           else
