@@ -84,12 +84,7 @@ module Inferno
       # Run block in fiber and next reactor tick
       # @param [Proc] [Block to run in next tick if eventmachine reactor is running]
       def schedule(&block)
-        fiber = pool_fiber
-        if defined?(EM) && EM.reactor_running?
-          EM.next_tick { fiber.resume(block) }
-        else
-          fiber.resume(block)
-        end
+        pool_fiber.resume(block)
       end
 
       def broadcast(in_fiber, event, payload={})
